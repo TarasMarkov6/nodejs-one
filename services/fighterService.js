@@ -11,6 +11,10 @@ class FighterService {
   }
 
   createFighter(data) {
+    const existingFighterWithName = fighterRepository.getOne({ name: data.name });
+    if (existingFighterWithName) {
+      throw new Error("Fighter with the same name already exists");
+    }
     return fighterRepository.create(data);
   }
 

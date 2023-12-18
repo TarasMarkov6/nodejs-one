@@ -11,6 +11,14 @@ class UserService {
   }
 
   createUser(data) {
+    const existingUserWithEmail = userRepository.getOne({ email: data.email });
+    if (existingUserWithEmail) {
+      throw new Error("Email already exists");
+    }
+    const existingUserWithPhone = userRepository.getOne({ phoneNumber: data.phoneNumber });
+    if (existingUserWithPhone) {
+      throw new Error("Phone number already exists");
+    }
     return userRepository.create(data);
   }
 

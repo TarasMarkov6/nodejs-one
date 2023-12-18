@@ -4,6 +4,18 @@ const createFighterValid = (req, res, next) => {
   // TODO: Implement validatior for FIGHTER entity during creation
   const { id, ...fighterData } = req.body;
 
+  if (id) {
+    return res.status(400).json({ error: true, message: "ID should not be provided" });
+  }
+
+  const extraFields = Object.keys(userData).filter(
+    field => !Object.keys(FIGHTER).includes(field)
+  );
+  
+  if (extraFields.length > 0) {
+    return res.status(400).json({ error: true, message: `Extra fields found: ${extraFields.join(', ')}` });
+  }
+
   const requiredFields = ["name", "power", "defense"];
   const missingFields = requiredFields.filter(field => !fighterData.hasOwnProperty(field));
 

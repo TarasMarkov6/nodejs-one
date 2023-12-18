@@ -4,6 +4,17 @@ const createUserValid = (req, res, next) => {
   // TODO: Implement validatior for USER entity during creation
   const { id, ...userData } = req.body;
 
+  if (id) {
+    return res.status(400).json({ error: true, message: "ID should not be provided" });
+  }
+
+  const extraFields = Object.keys(userData).filter(
+    field => !Object.keys(USER).includes(field)
+  );
+  if (extraFields.length > 0) {
+    return res.status(400).json({ error: true, message: `Extra fields found: ${extraFields.join(', ')}` });
+  }
+
   const requiredFields = ["firstName", "lastName", "email", "phoneNumber", "password"];
   const missingFields = requiredFields.filter(field => !userData.hasOwnProperty(field));
 
