@@ -12,7 +12,7 @@ const router = Router();
 router.get("/", (req, res, next) => {
   try {
     const fighters = fighterService.getAllFighters();
-    res.status(200).json(fighters);
+    res.data = fighters;
   } catch (err) {
     res.err = err.message;
   } finally {
@@ -26,7 +26,7 @@ router.get("/:id", (req, res, next) => {
     if (!fighter) {
       return res.status(404).json({ error: true, message: "Fighter not found" });
     }
-    res.status(200).json(fighter);
+    res.data = fighter;
   } catch (err) {
     res.err = err.message;
   } finally {
